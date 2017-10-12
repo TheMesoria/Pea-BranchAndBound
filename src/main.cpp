@@ -6,8 +6,16 @@
 
 #include <string>
 #include <iostream>
+#include "City/Map.hpp"
 
 int main(int argc, char *args[])
 {
+	system("cd");
+
+	std::cout << "Start:\n";
+	CityMap map("map.txt");
+	map.PrintValueTriangle();
+	std::cout << "End\n";
+	system("pause");
 	return EXIT_SUCCESS;
 }
