@@ -2,7 +2,7 @@
 
 #include <vector>
 
-class BranchBoundAlghorythm
+class BranchBoundAlghorithm
 {
 public:
 	// std::vector<int> operator()(const )

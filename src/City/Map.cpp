@@ -12,13 +12,13 @@ CityMap::~CityMap()
 
 void CityMap::PrintValueTriangle() const
 {
-	for (size_t i = 0; i < cities_.size(); i++)
-	{
-		for (size_t j = 0; j < cities_[i].size(); j++)
-		{
-			std::cout << cities_[i][j];
-		}
 
+	for (auto vec : cities_)
+	{
+		for (auto var : vec)
+		{
+			std::cout << var;
+		}
 		std::cout << std::endl;
 	}
 }
@@ -36,10 +36,6 @@ void CityMap::LoadToMap(const std::string & fileName)
 		std::cerr << "File read failed: " << fileName << std::endl;
 		return;
 	}
-
-	// Read Header
-	file >> cityCount;
-
 	// Read Cities
 	while (!file.eof())
 	{
