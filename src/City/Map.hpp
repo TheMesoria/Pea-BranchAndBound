@@ -33,6 +33,7 @@ public:
 			{
 				retVal += std::to_string(var)+"->";
 			}
+			retVal += " Length: " + std::to_string(length);
 			return retVal;
 		}
 
