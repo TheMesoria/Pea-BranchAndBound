@@ -24,16 +24,22 @@ public:
 	struct Path
 	{
 		std::vector<unsigned> cities;
+		std::vector<unsigned> paths;
 		unsigned length;
 
 		std::string toString() const
 		{
-			std::string retVal = "";
+			std::string retVal = "Cities:";
 			for (auto var : cities)
 			{
 				retVal += std::to_string(var)+"->";
 			}
-			retVal += " Length: " + std::to_string(length);
+			retVal += "\nPaths: ";
+			for (auto var : paths)
+			{
+				retVal += std::to_string(var) + "->";
+			}
+			retVal += "\nLength: " + std::to_string(length);
 			return retVal;
 		}
 

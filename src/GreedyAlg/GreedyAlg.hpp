@@ -5,17 +5,22 @@
 
 class GreedyAlgorithm 
 {
-	CityMap::Path getClosestCity(const CityMap& cities, 
-		std::vector<unsigned>& unselectedCities, 
-		CityMap::Path& selectedCities=CityMap::Path(), 
-		const unsigned& start=0) const;
+	std::vector<unsigned> path_;
 
-	size_t findMinElement(const std::vector<unsigned> &val, const std::vector<unsigned> &cities) const;
-	
-	std::vector<unsigned> prepareCities(const size_t& count) const;
+private:
+	CityMap::Path getClosestCity(
+		const CityMap& map, 
+		std::vector<size_t>& notVisited,
+		const unsigned& start = 0 );
+
+	unsigned findMinElement(
+		const std::vector<unsigned> &val,
+		std::vector<unsigned> &notVisited);
+
 public:
 	static const unsigned INF = 9999;
 
-	CityMap::Path operator()(const CityMap& cities, 
-		const unsigned& startPoint) const;
+	CityMap::Path operator()(
+		const CityMap& cities, 
+		const unsigned& startPoint) ;
 };

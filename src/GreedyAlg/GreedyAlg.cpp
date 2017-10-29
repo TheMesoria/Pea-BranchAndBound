@@ -1,70 +1,67 @@
 #include "GreedyAlg.hpp"
 #include <stdio.h>
+#include <algorithm>
+#include <iostream>
 
 // HACK
-CityMap::Path GreedyAlgorithm::getClosestCity(const CityMap& cities, std::vector<unsigned>& unselectedCities, CityMap::Path& selectedCities, const unsigned& start) const
+CityMap::Path GreedyAlgorithm::getClosestCity(const CityMap& map,
+	std::vector<size_t>& notVisited,
+	const unsigned& start)
 {
-	auto argVec = cities.getMap().at(start);
+	if (notVisited.empty()) { return CityMap::Path(); }
 
-	if (unselectedCities.empty())
-	{ 
-		selectedCities.length += argVec[selectedCities.cities[0]];
-		selectedCities.cities.push_back(selectedCities.cities[0]);
-		return selectedCities;
-	}
-	if (selectedCities.cities.empty()) 
-	{
-		selectedCities.cities.push_back(unselectedCities.at(start));
-		unselectedCities.erase(unselectedCities.begin() + start);
-	}
-	else
-	{
-		argVec[start] = INF;
-	}
-	
-	auto minIterator = std::min_element(argVec.begin(),argVec.end());
-	auto minElement = findMinElement(argVec,unselectedCities);
-	
-	selectedCities.length += argVec[minElement];
-	printf("Length: %d\n", selectedCities.length);
-	selectedCities.cities.push_back(unselectedCities.at(minElement));
-	unselectedCities.erase(unselectedCities.begin() + minElement);
+	auto citiesAviable = map.getMap()[start];
+	auto bestCityId = findMinElement(citiesAviable, notVisited);
+	auto bestCity = citiesAviable[bestCityId];
 
-	return getClosestCity(cities, unselectedCities, selectedCities, selectedCities.cities.back());
+	auto bestPath = getClosestCity(map, notVisited, bestCityId);
+	bestPath.paths.push_back(bestCity);
+	bestPath.length += bestCity;
+
+	return bestPath;
 }
 
-size_t GreedyAlgorithm::findMinElement(const std::vector<unsigned>& val, const std::vector<unsigned> &cities) const
+unsigned GreedyAlgorithm::findMinElement(
+	const std::vector<unsigned>& val, 
+	std::vector<unsigned>& notVisited)
 {
-	CityMap::Path path;
-	path.cities = val;
-	CityMap::Path path2;
-	path2.cities = cities;
-	
-	printf("\nOptions aviable: %s\nPaths: %s\n\n", path.toString().c_str(), path2.toString().c_str());
+	auto best= val[notVisited[0]];
+	auto knownBest = 0u;
+	auto knownBestInNotVisited = 0u;
+	auto it = 0u;
 
-	size_t minEl; unsigned minVal=INF;
-	for (auto i=0; i<cities.size();i++)
+	for (auto var : notVisited)
 	{
-		if (val[cities[i]] < minVal)
+		if (val[var] <= best || best == 0)
 		{
-			minEl = i;
-			minVal = val[cities[i]];
-			printf("\tVal INSIDE: %d\n", minVal);
+			best = val[var];
+			knownBest = var;
+			knownBestInNotVisited = it;
 		}
+		it++;
 	}
-	printf("Choosen val: %d, choosen id: %d\n", val[cities[minEl]], minEl);
-	return minEl;
+	path_.push_back(notVisited[knownBestInNotVisited]);
+	notVisited.erase(notVisited.begin()+knownBestInNotVisited);
+	return knownBest;
 }
 
-std::vector<unsigned> GreedyAlgorithm::prepareCities(const size_t & count) const
+CityMap::Path GreedyAlgorithm::operator()(const CityMap &cities, const unsigned &startPoint)
 {
-	std::vector<unsigned> temp;
-	for (size_t i = 0; i < count; i++) { temp.push_back(i); }
-	return temp;
-}
+	auto map = cities.getMap();
+	std::vector<unsigned> notVisited;
+	for (auto i = 0u; i < map.size(); i++)
+	{
+		if (startPoint != i)
+			notVisited.push_back(i);
+	}
+	
+	path_.push_back(startPoint);
 
-CityMap::Path GreedyAlgorithm::operator()(const CityMap &cities, const unsigned &startPoint) const
-{
-	CityMap::Path shortestPath;
-	return getClosestCity(cities, prepareCities(cities.getMap().size()), shortestPath, startPoint);
+	auto path = getClosestCity(cities, notVisited, startPoint);
+	path.paths.push_back(cities.getMap()[startPoint][path_.back()]);
+	path.cities = path_;
+	path.length += cities.getMap()[startPoint][path_.back()];
+	
+	path_ = std::vector<unsigned>();
+	return path;
 }

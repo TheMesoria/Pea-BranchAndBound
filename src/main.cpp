@@ -13,7 +13,8 @@ int main(int argc, char *args[])
 {
 	CityMap map(args[1]);
 	auto path = GreedyAlgorithm();
-	for (auto i = 0; i < 5; i++) { std::cout << "\n\n\t\t" << path(map, i).toString() << "\n\n\n\n"; }
+	CityMap::Path shortestPath();
+	for (auto i = 0; i < 5; i++) { std::cout << path(map, i).toString() << "\n\n"; }
 	system("pause");
 	return EXIT_SUCCESS;
 }
