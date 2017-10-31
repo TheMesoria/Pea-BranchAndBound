@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <algorithm>
 #include <iostream>
+#include <vector>
 
 // HACK
 CityMap::Path GreedyAlgorithm::getClosestCity(const CityMap& map,
