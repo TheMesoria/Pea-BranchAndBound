@@ -48,5 +48,10 @@ public:
 			cities = std::vector<unsigned>();
 			length = 0;
 		}
+		Path(unsigned length)
+		{
+			cities = std::vector<unsigned>();
+			length = length;
+		}
 	};
 };
