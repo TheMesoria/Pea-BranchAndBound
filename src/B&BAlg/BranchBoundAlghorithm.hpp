@@ -8,6 +8,7 @@ class BranchBoundAlghorithm
 	const CityMap* map_;
 	CityMap::Path bestPath_;
 
+	const unsigned& getDistance(CityMap::Path &path);
 	std::optional<bool> execute(CityMap::Path current, std::list <unsigned>& citiesLeft);
 	std::optional<bool> handle(CityMap::Path current, std::list<unsigned>& citiesLeft);
 public:

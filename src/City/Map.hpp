@@ -54,5 +54,11 @@ public:
 			cities = std::vector<unsigned>();
 			length = length2;
 		}
+		void operator=(Path rhs)
+		{
+			cities = rhs.cities;
+			paths = rhs.paths;
+			length = rhs.length;
+		}
 	};
 };
