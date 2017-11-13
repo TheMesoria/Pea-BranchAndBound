@@ -1,6 +1,26 @@
 #include "Map.hpp"
 #include <iostream>
 
+CityMap::CityMap(const std::vector<std::vector<float>>& pointVector)
+{
+	for (auto i = 0u; i < pointVector.size(); i++)
+	{
+		std::vector<unsigned> tmp;
+		for (auto j = 0u; j < pointVector.size(); j++)
+		{
+			float firstX = pointVector[i][0], firstY=pointVector[i][1];
+			float secondX = pointVector[j][0], secondY = pointVector[j][1];
+
+			auto resultX = abs(firstX - secondX), resultY=abs(firstY-secondY);
+			auto res = sqrt(pow(resultX, 2) + pow(resultY, 2));
+			unsigned resU = ceil(res);
+			tmp.push_back(resU);
+		}
+		cities_.push_back(tmp);
+		tmp.clear();
+	}
+}
+
 CityMap::CityMap(const std::string & fileName)
 {
 	LoadToMap(fileName);

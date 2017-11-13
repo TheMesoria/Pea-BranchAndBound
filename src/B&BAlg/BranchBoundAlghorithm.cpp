@@ -44,17 +44,16 @@ std::optional<bool> BranchBoundAlghorithm::execute(CityMap::Path current, std::l
 
 			// ============================
 			// Check for length
+			current.length += val;
+			current.paths.push_back(val);
 
 			if (over < bestPath_.length) {
-
-				current.length += val;
-				current.paths.push_back(val);
 
 
 				// ============================
 				// Continue loop
 
-
+				std::cout << current.length << std::endl;
 				auto result = execute(current, citiesLeft);
 				if (result == std::nullopt) { return std::nullopt; }
 				if (result != false)
@@ -69,10 +68,8 @@ std::optional<bool> BranchBoundAlghorithm::execute(CityMap::Path current, std::l
 			current.length -= val;
 			current.paths.pop_back();
 
-			citiesLeft.push_back(current.cities.back());
+			citiesLeft.push_front(current.cities.back());
 			current.cities.pop_back();
-
-			return false;
 		}
 	}
 	catch(...)

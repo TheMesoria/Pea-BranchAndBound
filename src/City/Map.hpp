@@ -15,6 +15,7 @@ private:
 
 	void LoadToMap(const std::string &fileName);
 public:
+	CityMap(const std::vector<std::vector<float>>& pointVector);
 	CityMap(const std::string &fileName);
 	~CityMap();
 
@@ -48,10 +49,10 @@ public:
 			cities = std::vector<unsigned>();
 			length = 0;
 		}
-		Path(unsigned length)
+		Path(unsigned length2)
 		{
 			cities = std::vector<unsigned>();
-			length = length;
+			length = length2;
 		}
 	};
 };
