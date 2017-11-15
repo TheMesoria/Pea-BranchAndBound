@@ -1,5 +1,6 @@
 #include <iostream>
 #include "../City/Map.hpp"
+#include <chrono>
 
 #include "BranchBoundAlghorithm.hpp"
 
@@ -58,14 +59,13 @@ std::optional<bool> BranchBoundAlghorithm::execute(CityMap::Path current, std::l
 		/// Current have all cities which he will visit in iteration
 
 		current.paths.push_back(getDistance(current));
+
 		current.length += current.paths.back();
 
 		if (current.length < bestPath_.length)
 		{
 			execute(current, citiesLeft);
 		}
-
-
 		citiesLeft.push_back(current.cities.back());
 		current.cities.pop_back();
 		current.length -= current.paths.back();
@@ -85,8 +85,6 @@ std::optional<bool> BranchBoundAlghorithm::handle(CityMap::Path current, std::li
 
 		auto result = execute(current,citiesLeft);
 		if (result == std::nullopt) { return std::nullopt; }
-
-
 		citiesLeft.push_back(current.cities.back());
 		current.cities.pop_back();
 	}
