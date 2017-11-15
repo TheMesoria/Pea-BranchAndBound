@@ -5,7 +5,7 @@
 
 class GreedyAlgorithm 
 {
-	std::vector<unsigned> path_;
+	std::list<unsigned> path_;
 
 private:
 	CityMap::Path getClosestCity(

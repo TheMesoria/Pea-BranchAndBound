@@ -26,7 +26,11 @@ std::optional<bool> BranchBoundAlghorithm::start()
 
 const unsigned & BranchBoundAlghorithm::getDistance(CityMap::Path& path)
 {
-	unsigned cityA = path.cities[path.cities.size()-1], cityB = path.cities[path.cities.size() - 2];
+
+	unsigned cityB = path.cities.back();
+	path.cities.pop_back();
+	unsigned cityA = path.cities.back();
+	path.cities.push_back(cityB);
 
 	return map_->getMap()[cityA][cityB];
 }
@@ -36,41 +40,34 @@ std::optional<bool> BranchBoundAlghorithm::execute(CityMap::Path current, std::l
 	if (citiesLeft.empty())
 	{
 		current.cities.push_back(current.cities.front());
-		current.paths.push_back(getDistance(current));
-		current.length += current.paths.back();
-		if (bestPath_.length > current.length)
+		auto dist = getDistance(current);
+
+		if (dist + current.length < bestPath_.length)
 		{
+			current.length += dist;
+			current.paths.push_back(dist);
 			bestPath_ = current;
 		}
 		current.cities.pop_back();
-		current.length -= current.paths.back();
-		current.paths.pop_back();
-		return false;
+		return false;;
 	}
 
-	unsigned size = citiesLeft.size();
+	auto size = citiesLeft.size();
 	for (auto i = 0u; i < size; i++)
 	{
-		//Add Element to front
 		current.cities.push_back(citiesLeft.front());
-		//Remove Element from list of not visited
 		citiesLeft.pop_front();
-		/// Situation :
-		/// Current have all cities which he will visit in iteration
-
 		current.paths.push_back(getDistance(current));
-
-		current.length += current.paths.back();
-
-		if (current.length < bestPath_.length)
+		if (current.length + current.paths.back() < bestPath_.length)
 		{
+			current.length += current.paths.back();
 			execute(current, citiesLeft);
+			current.length -= current.paths.back();
 		}
 		citiesLeft.push_back(current.cities.back());
-		current.cities.pop_back();
-		current.length -= current.paths.back();
 		current.paths.pop_back();
-	}	
+		current.cities.pop_back();
+	}
 	return true;
 }
 

@@ -19,7 +19,7 @@ int main(int argc, char *args[])
 	std::fstream file("results.res");
 	std::vector<unsigned> resultsEmpty;
 	std::vector<unsigned> resultsBoosted;
-	for (auto i = 1u; i < 6; i++)
+	for (auto i = 1u; i < 12; i++)
 	{
 		using namespace std;
 		string name = to_string(i)+".tsp";
@@ -30,11 +30,11 @@ int main(int argc, char *args[])
 		std::cout << "\n\nELEMENT: " << i;
 
 		auto start = chrono::steady_clock::now();
-		calculatePath(map, true);
+		calculatePath(map, false);
 		auto end = chrono::steady_clock::now();
 		auto result = end - start;
 
-		resultsEmpty.push_back(chrono::duration_cast<chrono::milliseconds>(result).count());
+		resultsEmpty.push_back(chrono::duration_cast<chrono::seconds>(result).count());
 	}
 
 

@@ -63,6 +63,6 @@ CityMap::Path GreedyAlgorithm::operator()(const CityMap &cities, const unsigned 
 	path.cities = path_;
 	path.length += cities.getMap()[startPoint][path_.back()];
 	
-	path_ = std::vector<unsigned>();
+	path_ = std::list<unsigned>();
 	return path;
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <list>
 #include <fstream>
 
 class CityMap
@@ -24,8 +25,8 @@ public:
 
 	struct Path
 	{
-		std::vector<unsigned> cities;
-		std::vector<unsigned> paths;
+		std::list<unsigned> cities;
+		std::list<unsigned> paths;
 		unsigned length;
 
 		std::string toString() const
@@ -46,12 +47,12 @@ public:
 
 		Path()
 		{
-			cities = std::vector<unsigned>();
+			cities = std::list<unsigned>();
 			length = 0;
 		}
 		Path(unsigned length2)
 		{
-			cities = std::vector<unsigned>();
+			cities = std::list<unsigned>();
 			length = length2;
 		}
 		void operator=(Path rhs)
