@@ -40,32 +40,12 @@ std::optional<bool> BranchBoundAlghorithm::execute(CityMap::Path current, std::l
 		if (bestPath_.length > current.length)
 		{
 			bestPath_ = current;
-			std::cout << bestPath_.toString() << "\n\n";
 		}
 		current.cities.pop_back();
 		current.length -= current.paths.back();
 		current.paths.pop_back();
 		return false;
 	}
-
-
-	//for each (auto var in map_->getMap())
-	//{
-	//	for each (auto var2 in var)
-	//	{
-	//		std::cout << var2 << " ";
-	//	}
-	//	std::cout << std::endl << std::endl;
-	//}
-
-	//std::cout << map_->getMap()[3][2];
-	/*
-	for each (auto var in citiesLeft)
-	{
-		std::cout << var << " ";
-	}
-	std::cout << "\n";
-	*/
 
 	unsigned size = citiesLeft.size();
 	for (auto i = 0u; i < size; i++)

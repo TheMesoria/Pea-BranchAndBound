@@ -18,9 +18,10 @@ const std::vector<std::vector<float>> FileConverter::parsePoints(const std::stri
 
 	std::string name;
 	float x, y;
-	while (name!="EOF" )
+	while (true)
 	{
 		file >> name >> x >> y;
+		if (name == "EOF") break;
 		points.push_back(std::vector<float>());
 		points.back().push_back(x);
 		points.back().push_back(y);
